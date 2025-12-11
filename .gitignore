@@ -1,0 +1,12 @@
+
+.vs/
+*.user
+*.suo
+
+# Build output
+bin/
+obj/
+
+# VS state files
+*.userosscache
+*.sln.docstates
