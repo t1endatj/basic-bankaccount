@@ -47,18 +47,20 @@ namespace MiniBankAccount
                 return;
             }
 
-            if (AmountNum.Value <= 0)
+            if (BankAccountGrid.SelectedRows.Count == 1)
             {
-                MessageBox.Show("Deposit amount must be greater than zero.");
-                return;
-            }
-
-            if (BankAccountGrid.SelectedRows.Count == 1 && AmountNum.Value > 0)
-            {
-                BankAccountApp selectedAccount = (BankAccountApp)BankAccountGrid.CurrentRow.DataBoundItem;
-                selectedAccount.Balance += AmountNum.Value;
-                RefreshGrid();
-                AmountNum.Value = 0;
+                try
+                {
+                    BankAccountApp selectedAccount = (BankAccountApp)BankAccountGrid.CurrentRow.DataBoundItem;
+                    selectedAccount.Deposit(AmountNum.Value);
+                    RefreshGrid();
+                    AmountNum.Value = 0;
+                }
+                catch (ArgumentException ex)
+                {
+                    MessageBox.Show(ex.Message);
+                    return;
+                }
             }
         }
 
@@ -77,17 +79,20 @@ namespace MiniBankAccount
             }
 
 
-            if (BankAccountGrid.SelectedRows.Count == 1 && AmountNum.Value > 0)
+            if (BankAccountGrid.SelectedRows.Count == 1)
             {
-                BankAccountApp selectedAccount = (BankAccountApp)BankAccountGrid.CurrentRow.DataBoundItem;
-                if(AmountNum.Value > selectedAccount.Balance)
+                try
                 {
-                    MessageBox.Show("Insufficient funds for this withdrawal.");
+                    BankAccountApp selectedAccount = (BankAccountApp)BankAccountGrid.CurrentRow.DataBoundItem;
+                    selectedAccount.Withdraw(AmountNum.Value);
+                    RefreshGrid();
+                    AmountNum.Value = 0;
+                }
+                catch (ArgumentException ex)
+                {
+                    MessageBox.Show(ex.Message);
                     return;
                 }
-                selectedAccount.Balance -= AmountNum.Value;
-                RefreshGrid();
-                AmountNum.Value = 0;
             }
         }
     }
