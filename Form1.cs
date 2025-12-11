@@ -1,3 +1,5 @@
+using System.Linq;
+
 namespace MiniBankAccount
 {
     public partial class Form1 : Form
@@ -9,13 +11,21 @@ namespace MiniBankAccount
         }
         private void CreateAccountBtn_Click(object sender, EventArgs e)
         {
+            string owner = OwnerTxt.Text.Trim();
             if (string.IsNullOrEmpty(OwnerTxt.Text))
             {
                 MessageBox.Show("Owner name is required to create an account.");
                 return;
             }
+            
             BankAccountApp newAccount = new BankAccountApp(OwnerTxt.Text);
+            if (bankAccounts.Any(a => string.Equals(a.Owner, owner, StringComparison.OrdinalIgnoreCase)))
+            {
+                MessageBox.Show("An account for this owner already exists.");
+                return;
+            }
             bankAccounts.Add(newAccount);
+
             RefreshGrid();
             OwnerTxt.Text = "";
         }

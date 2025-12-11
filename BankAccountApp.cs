@@ -23,6 +23,7 @@ namespace MiniBankAccount
                 throw new ArgumentException("Deposit amount must be greater than zero.");
             }
             Balance += amount;
+            MessageBox.Show("Deposit successful.");
         }
 
         public void Withdraw(decimal amount)
@@ -36,6 +37,7 @@ namespace MiniBankAccount
                 throw new ArgumentException("Insufficient funds for this withdrawal.");
             }
             Balance -= amount;
+            MessageBox.Show("Withdraw successful.");
         }
     }
 }
